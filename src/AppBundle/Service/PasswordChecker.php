@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace AppBundle\Service;
 
-use AppBundle\PasswordChecker\MinSizeChecker;
-use AppBundle\PasswordChecker\AsciiChecker;
-use AppBundle\PasswordChecker\AnagramChecker;
-
 class PasswordChecker
 {
     /**
      * @var MinSizeChecker
      */
-    private $minSizeChecker;
-    private $asciiChecker;
-    private $anagramChecker;
+    private $factory;
+    private $enabledChecker = ['minsize','ascii','anagram'];
 
-    public function __construct(MinSizeChecker $minSizeChecker, Asciichecker $asciiChecker, AnagramChecker $anagramChecker)
+    public function __construct(CheckerFactory $factory)
     {
-        $this->minSizeChecker = $minSizeChecker;
-	$this->asciiChecker = $asciiChecker;
-	$this->anagramChecker = $anagramChecker;
+	$this->factory = $factory;
     }
 
     /**
@@ -33,18 +26,12 @@ class PasswordChecker
      */
     public function check(string $password): ?string
     {
-        if (false === $this->minSizeChecker->check($password)) {
-            return $this->minSizeChecker->message();
-        }
- 
-        if (false === $this->asciiChecker->check($password)) {
-            return $this->asciiChecker->message();
-        }
-
-        if (false === $this->anagramChecker->check($password)) {
-            return $this->anagramChecker->message();
-        }
-
+	foreach ($this->enabledChecker as $checkClass) {
+		$checker = $this->factory::create($checkClass);
+		if (false === $checker->check($password)) {
+            		return $checker->message();
+        	}
+	}
         return null;
     }
 }
