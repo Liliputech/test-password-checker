@@ -11,3 +11,5 @@ Les mots de passe doivent répondre à plusieurs critères (taille minimale, mé
 1. Modifier `AppBundle\Service\PasswordChecker` pour qu'il utilise les 2 nouvelles classes.
 1. On voudrait pouvoir étendre le système à un grand nombre de checkers et pouvoir activer/désactiver des checkers par configuration. Proposer une solution.
 1. Quels composants standards de Symfony pourrait-on utiliser pour améliorer ou simplifier ce projet ? Vous pouvez utiliser ce README pour noter votre réponse.
+
+On aurait pu utiliser le composant "Validator".
