@@ -11,7 +11,8 @@ class AnagramChecker implements PasswordCheckerInterface
         $pass = str_split(strtolower($password));
 	$word = str_split('password');
 	sort($pass);sort($word);
-	return var_dump($pass == $word);
+	if($pass == $word) return false;
+	return true;
     }
 
     public function message(): string
