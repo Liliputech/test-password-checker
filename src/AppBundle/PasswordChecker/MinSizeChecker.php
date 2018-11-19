@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 namespace AppBundle\PasswordChecker;
+//use PasswordCheckerInterface;
 
-class MinSizeChecker
+class MinSizeChecker implements PasswordCheckerInterface
 {
     const MIN_SIZE = 6;
 
